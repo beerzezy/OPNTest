@@ -1,2 +1,2 @@
-# run program
+## run program
 go run main.go
