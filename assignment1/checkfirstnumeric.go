@@ -7,23 +7,7 @@ import (
 	"regexp"
 )
 
-// func CheckFirstNumeric() {
-// 	var input string
-
-// 	fmt.Println("\n------- Program Check First Numeric of String. -------")
-// 	fmt.Print("Enter String: ")
-// 	fmt.Scanln(&input)
-
-// 	result := findFirstNumeric(input)
-
-// 	if result == "" {
-// 		result = "not found numeric."
-// 	}
-// 	fmt.Printf("Result: %s", result)
-// 	fmt.Println("\n------------------------------------------------------")
-// }
-
-func CheckFirstNumeric() error {
+func CheckFirstNumeric() (string, error) {
 	scanner := bufio.NewScanner(os.Stdin)
 	var input string
 
@@ -34,7 +18,7 @@ func CheckFirstNumeric() error {
 		input = scanner.Text()
 	}
 	if err := scanner.Err(); err != nil {
-		return err
+		return "", err
 	}
 
 	result := findFirstNumeric(input)
@@ -42,10 +26,7 @@ func CheckFirstNumeric() error {
 		result = "Numeric not found."
 	}
 
-	fmt.Printf("Result: %s", result)
-	fmt.Println("\n------------------------------------------------------")
-
-	return nil
+	return result, nil
 }
 
 func findFirstNumeric(input string) string {

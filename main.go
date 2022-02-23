@@ -33,9 +33,13 @@ func main() {
 
 		switch choice {
 		case (1):
-			assignment1.CheckFirstNumeric()
+			result, _ := assignment1.CheckFirstNumeric()
+			fmt.Printf("Result: %s", result)
+			fmt.Println("\n------------------------------------------------------")
 		case (2):
-			assignment2.CheckIPAddress()
+			result, _ := assignment2.CheckIPAddress()
+			fmt.Printf("Result: %t", result)
+			fmt.Println("\n------------------------------------------------------")
 		case (3):
 			assignment3.FootballRankingCalculate()
 		case (4):
