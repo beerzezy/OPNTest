@@ -1,8 +1,12 @@
 package assignment3
 
 import (
+	"bufio"
 	"fmt"
+	"os"
+	"reflect"
 	"sort"
+	"strconv"
 
 	"github.com/fatih/color"
 	"github.com/rodaine/table"
@@ -14,14 +18,14 @@ const (
 )
 
 type inputTeamStats struct {
-	TeamName    string
-	Win         int
-	Lose        int
-	Draw        int
-	Score       int
-	GoalFor     int
-	GoalAgainst int
-	GoalDiff    int
+	TeamName    string `field:"Team"`
+	Win         int    `field:"Win"`
+	Lose        int    `field:"Lose"`
+	Draw        int    `field:"Draw"`
+	Score       int    `field:"Score"`
+	GoalFor     int    `field:"Goal For"`
+	GoalAgainst int    `field:"Goal Against"`
+	GoalDiff    int    `field:"Goal Diff"`
 }
 
 type resultTeamStat struct {
@@ -60,68 +64,57 @@ func inputFootballTeam(teamAmount int) []inputTeamStats {
 	for countTeamAmount < teamAmount {
 
 		countTeamAmount++
-		fmt.Printf("\n----------------- No. %d -----------------", countTeamAmount)
+		fmt.Printf("\n----------------- No. %d -----------------\n", countTeamAmount)
 
 		teamStat := inputTeamStats{}
 
-		fmt.Print("\nTeam: ")
-		fmt.Scanln(&teamStat.TeamName)
-
-		for {
-			fmt.Print("Win: ")
-			_, err := fmt.Scanln(&teamStat.Win)
-			if err != nil {
-				fmt.Println("Invalid Input Type")
-			} else {
-				break
-			}
-		}
-
-		for {
-			fmt.Print("Lose: ")
-			_, err := fmt.Scanln(&teamStat.Lose)
-			if err != nil {
-				fmt.Println("Invalid Input Type")
-			} else {
-				break
-			}
-		}
-
-		for {
-			fmt.Print("Draw: ")
-			_, err := fmt.Scanln(&teamStat.Draw)
-			if err != nil {
-				fmt.Println("Invalid Input Type")
-			} else {
-				break
-			}
-		}
-
-		for {
-			fmt.Print("Goal For: ")
-			_, err := fmt.Scanln(&teamStat.GoalFor)
-			if err != nil {
-				fmt.Println("Invalid Input Type")
-			} else {
-				break
-			}
-		}
-
-		for {
-			fmt.Print("Goal Against: ")
-			_, err := fmt.Scanln(&teamStat.GoalAgainst)
-			if err != nil {
-				fmt.Println("Invalid Input Type")
-			} else {
-				break
-			}
-		}
+		teamStat = inputStats("TeamName", teamStat)
+		teamStat = inputStats("Win", teamStat)
+		teamStat = inputStats("Lose", teamStat)
+		teamStat = inputStats("Draw", teamStat)
+		teamStat = inputStats("GoalFor", teamStat)
+		teamStat = inputStats("GoalAgainst", teamStat)
 
 		teamStatList = append(teamStatList, teamStat)
 
 	}
 
 	return teamStatList
+}
+
+func inputStats(fieldName string, teamStat inputTeamStats) inputTeamStats {
+	scanner := bufio.NewScanner(os.Stdin)
+	stats := teamStat
+
+	t := reflect.ValueOf(stats).Type()
+	n, _ := t.FieldByName(fieldName)
+	tagName := n.Tag.Get("field")
+
+	v := reflect.ValueOf(&stats).Elem()
+	for {
+		fmt.Printf("%s: ", tagName)
+		if scanner.Scan() {
+			input := scanner.Text()
+			itemType := v.FieldByName(fieldName).Type()
+
+			if itemType.Kind() == reflect.String {
+				v.FieldByName(fieldName).SetString(input)
+				break
+			}
+			if itemType.Kind() == reflect.Int {
+				inputInt, err := strconv.Atoi(input)
+				if err != nil {
+					fmt.Println("Invalid Input Type")
+				} else {
+					v.FieldByName(fieldName).SetInt(int64(inputInt))
+					break
+				}
+			}
+
+		}
+	}
+
+	return stats
 }
 
 func calculateStats(teamStatList []inputTeamStats) []inputTeamStats {

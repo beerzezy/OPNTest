@@ -1,21 +1,32 @@
 package assignment2
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 	"regexp"
 )
 
-func CheckIPAddress() {
+func CheckIPAddress() error {
+	scanner := bufio.NewScanner(os.Stdin)
 	var input string
 
 	fmt.Println("\n------------ Program IP Address Checker. ------------")
 	fmt.Print("Enter IP Address: ")
-	fmt.Scanln(&input)
+
+	if scanner.Scan() {
+		input = scanner.Text()
+	}
+	if err := scanner.Err(); err != nil {
+		return err
+	}
 
 	result := validateIPAddress(input)
 
 	fmt.Printf("Result: %t", result)
 	fmt.Println("\n------------------------------------------------------")
+
+	return nil
 }
 
 func validateIPAddress(input string) bool {

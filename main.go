@@ -21,7 +21,6 @@ func main() {
 	for {
 		var choice int
 
-		fmt.Println()
 		menu()
 
 		fmt.Print("Select choice: ")
@@ -78,5 +77,6 @@ func menu() {
 	for _, program := range programsList {
 		tbl.AddRow(program.No, program.Name)
 	}
+	fmt.Println()
 	tbl.Print()
 }
