@@ -33,11 +33,17 @@ func main() {
 
 		switch choice {
 		case (1):
-			result, _ := assignment1.CheckFirstNumeric()
+			result, err := assignment1.CheckFirstNumeric()
+			if err != nil {
+				panic(err)
+			}
 			fmt.Printf("Result: %s", result)
 			fmt.Println("\n------------------------------------------------------")
 		case (2):
-			result, _ := assignment2.CheckIPAddress()
+			result, err := assignment2.CheckIPAddress()
+			if err != nil {
+				panic(err)
+			}
 			fmt.Printf("Result: %t", result)
 			fmt.Println("\n------------------------------------------------------")
 		case (3):
