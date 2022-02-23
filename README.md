@@ -8,7 +8,7 @@ $ go run main.go
 ### Assignment#1
 Program result:
 
-![assigment](https://user-images.githubusercontent.com/63368848/155272385-ba61a0fe-1c22-4a9f-a04d-7dc2e1c6ac39.png)
+![assigment1](https://user-images.githubusercontent.com/63368848/155272763-af352fd6-2200-4e12-b5de-8e9bd7a67656.png)
 
 ### Assignment#2
 Program result:
